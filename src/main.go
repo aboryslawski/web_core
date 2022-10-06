@@ -1,15 +1,17 @@
 package main
 
-import(
-    "fmt"
-    "net/http"
+import (
+	"fmt"
+	"net/http"
+	"github.com/gorilla/mux"
 )
 
-func main(){
-    http.HandleFunc("/", indexPage)
-    http.ListenAndServe(":8000", nil)
+func main() {
+	r := mux.NewRouter()
+	r.HandleFunc("/hello", handler).Methods("GET")
+	http.ListenAndServe(":8080", r)
 }
 
-func indexPage(w http.ResponseWriter, r *http.Request){
-    fmt.Println("hello!")
+func handler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Hello World!")
 }
